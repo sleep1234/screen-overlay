@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="屏幕漏液覆盖工具"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="12dp"/>
+
+    <com.example.screenoverlay.MainActivity$PreviewView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="X 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:id="@+id/tvX" android:layout_width="70dp" android:layout_height="wrap_content"
+            android:text="X: 540"/>
+        <SeekBar android:id="@+id/sbX" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:max="1080" android:progress="540"/>
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Y 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:id="@+id/tvY" android:layout_width="70dp" android:layout_height="wrap_content"
+            android:text="Y: 200"/>
+        <SeekBar android:id="@+id/sbY" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:max="2400" android:progress="200"/>
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="大小" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:id="@+id/tvR" android:layout_width="80dp" android:layout_height="wrap_content"
+            android:text="半径: 40"/>
+        <SeekBar android:id="@+id/sbR" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:max="200" android:progress="40"/>
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="不透明度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginBottom="16dp">
+        <TextView android:id="@+id/tvA" android:layout_width="100dp" android:layout_height="wrap_content"
+            android:text="不透明度: 255"/>
+        <SeekBar android:id="@+id/sbAlpha" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:max="255" android:progress="255"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btnSave" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="保存" android:layout_marginEnd="4dp"/>
+        <Button android:id="@+id/btnStart" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="启动" android:layout_marginEnd="4dp"/>
+        <Button android:id="@+id/btnStop" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="停止"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提示：\n1. 调整滑块设置黑圈位置和大小\n2. 点击「保存」后「启动」\n3. 启动后可在屏幕上拖拽黑圈微调位置"
+        android:textSize="13sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="3dp"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>
