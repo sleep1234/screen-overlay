@@ -14,7 +14,7 @@
         android:gravity="center"
         android:layout_marginBottom="12dp"/>
 
-    <com.example.screenoverlay.MainActivity$PreviewView
+    <com.example.screenoverlay.PreviewView
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="220dp"
