@@ -1,93 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="屏幕漏液覆盖工具"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="12dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <com.example.screenoverlay.PreviewView
-        android:id="@+id/preview"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="屏幕漏液覆盖工具"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="X 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="8dp">
-        <TextView android:id="@+id/tvX" android:layout_width="70dp" android:layout_height="wrap_content"
-            android:text="X: 540"/>
-        <SeekBar android:id="@+id/sbX" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:max="1080" android:progress="540"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="黑色覆盖层会直接显示在屏幕上，拖动滑块实时调整"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="X 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/tvX" android:layout_width="70dp" android:layout_height="wrap_content"
+                android:text="X: 540"/>
+            <SeekBar android:id="@+id/sbX" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:max="1080" android:progress="540"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Y 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/tvY" android:layout_width="70dp" android:layout_height="wrap_content"
+                android:text="Y: 200"/>
+            <SeekBar android:id="@+id/sbY" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:max="2400" android:progress="200"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="横向宽度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/tvW" android:layout_width="90dp" android:layout_height="wrap_content"
+                android:text="横向宽度: 80"/>
+            <SeekBar android:id="@+id/sbW" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:max="400" android:progress="80"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="纵向宽度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/tvH" android:layout_width="90dp" android:layout_height="wrap_content"
+                android:text="纵向宽度: 80"/>
+            <SeekBar android:id="@+id/sbH" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:max="400" android:progress="80"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="不透明度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="16dp">
+            <TextView android:id="@+id/tvA" android:layout_width="100dp" android:layout_height="wrap_content"
+                android:text="不透明度: 255"/>
+            <SeekBar android:id="@+id/sbAlpha" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:max="255" android:progress="255"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btnStart" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="启动" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/btnStop" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="停止"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提示：\n1. 横向=纵向时为正圆，不等时为椭圆\n2. 启动后拖动滑块实时变化\n3. 也可在屏幕上直接拖拽黑圈微调"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginTop="12dp"/>
+
     </LinearLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Y 位置" android:textStyle="bold" android:layout_marginBottom="2dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="8dp">
-        <TextView android:id="@+id/tvY" android:layout_width="70dp" android:layout_height="wrap_content"
-            android:text="Y: 200"/>
-        <SeekBar android:id="@+id/sbY" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:max="2400" android:progress="200"/>
-    </LinearLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="横向宽度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="8dp">
-        <TextView android:id="@+id/tvW" android:layout_width="90dp" android:layout_height="wrap_content"
-            android:text="横向宽度: 80"/>
-        <SeekBar android:id="@+id/sbW" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:max="400" android:progress="80"/>
-    </LinearLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="纵向宽度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="8dp">
-        <TextView android:id="@+id/tvH" android:layout_width="90dp" android:layout_height="wrap_content"
-            android:text="纵向宽度: 80"/>
-        <SeekBar android:id="@+id/sbH" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:max="400" android:progress="80"/>
-    </LinearLayout>
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="不透明度" android:textStyle="bold" android:layout_marginBottom="2dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="16dp">
-        <TextView android:id="@+id/tvA" android:layout_width="100dp" android:layout_height="wrap_content"
-            android:text="不透明度: 255"/>
-        <SeekBar android:id="@+id/sbAlpha" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:max="255" android:progress="255"/>
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button android:id="@+id/btnSave" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="保存" android:layout_marginEnd="4dp"/>
-        <Button android:id="@+id/btnStart" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="启动" android:layout_marginEnd="4dp"/>
-        <Button android:id="@+id/btnStop" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="停止"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="提示：\n1. 横向宽度=纵向宽度时为正圆\n2. 横向≠纵向时为椭圆\n3. 启动后可在屏幕上拖拽微调位置"
-        android:textSize="13sp"
-        android:textColor="#666666"
-        android:lineSpacingExtra="3dp"
-        android:layout_marginTop="12dp"/>
-
-</LinearLayout>
+</ScrollView>

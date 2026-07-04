@@ -23,9 +23,10 @@ import android.view.WindowManager;
 public class OverlayService extends Service {
     private static final String CH_ID = "overlay_channel";
     private static final String PREFS = "overlay_config";
+    public static final String ACTION_UPDATE_OVERLAY = "com.example.screenoverlay.UPDATE_OVERLAY";
 
     private WindowManager wm;
-    private View overlay;
+    private EllipseView overlay;
     private WindowManager.LayoutParams params;
     private SharedPreferences sp;
 
@@ -42,7 +43,16 @@ public class OverlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        showOverlay();
+        if (intent != null && ACTION_UPDATE_OVERLAY.equals(intent.getAction())) {
+            updateOverlay(
+                    intent.getIntExtra("pos_x", 540),
+                    intent.getIntExtra("pos_y", 200),
+                    intent.getIntExtra("width", 80),
+                    intent.getIntExtra("height", 80),
+                    intent.getIntExtra("alpha", 255));
+        } else {
+            showOverlay();
+        }
         return START_STICKY;
     }
 
@@ -66,6 +76,36 @@ public class OverlayService extends Service {
         int height = sp.getInt("height", 80);
         int alpha = sp.getInt("alpha", 255);
 
+        createOverlay(width, height, alpha);
+        positionOverlay(cx, cy, width, height);
+        wm.addView(overlay, params);
+        startForeground(1, buildNotification());
+    }
+
+    private void updateOverlay(int cx, int cy, int width, int height, int alpha) {
+        if (overlay == null) {
+            createOverlay(width, height, alpha);
+            positionOverlay(cx, cy, width, height);
+            wm.addView(overlay, params);
+            startForeground(1, buildNotification());
+        } else {
+            // 更新大小
+            if (overlay.getWidth() != width || overlay.getHeight() != height) {
+                wm.removeView(overlay);
+                createOverlay(width, height, alpha);
+                positionOverlay(cx, cy, width, height);
+                wm.addView(overlay, params);
+            } else {
+                // 更新透明度和位置
+                overlay.setAlpha(alpha);
+                params.x = cx - width / 2;
+                params.y = cy - height / 2;
+                wm.updateViewLayout(overlay, params);
+            }
+        }
+    }
+
+    private void createOverlay(int width, int height, int alpha) {
         int finalWidth = width;
         int finalHeight = height;
 
@@ -112,11 +152,11 @@ public class OverlayService extends Service {
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
+    }
+
+    private void positionOverlay(int cx, int cy, int width, int height) {
         params.x = cx - width / 2;
         params.y = cy - height / 2;
-
-        wm.addView(overlay, params);
-        startForeground(1, buildNotification());
     }
 
     private void removeOverlay() {
@@ -135,7 +175,7 @@ public class OverlayService extends Service {
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_IMMUTABLE);
         return new Notification.Builder(this, CH_ID)
                 .setContentTitle("屏幕覆盖运行中")
-                .setContentText("拖拽调整位置，打开App调整大小")
+                .setContentText("打开App调整大小和位置")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentIntent(pi)
                 .setOngoing(true)
@@ -154,6 +194,10 @@ public class OverlayService extends Service {
             paint.setAlpha(alpha);
             paint.setStyle(Paint.Style.FILL);
             setWillNotDraw(false);
+        }
+        void setAlpha(int alpha) {
+            paint.setAlpha(alpha);
+            invalidate();
         }
         @Override
         protected void onMeasure(int wSpec, int hSpec) {
