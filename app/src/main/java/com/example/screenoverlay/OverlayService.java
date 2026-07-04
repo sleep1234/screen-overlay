@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.RectF;
 import android.os.Build;
 import android.os.IBinder;
 import android.view.Gravity;
@@ -62,10 +62,14 @@ public class OverlayService extends Service {
 
         int cx = sp.getInt("pos_x", 540);
         int cy = sp.getInt("pos_y", 200);
-        int radius = sp.getInt("radius", 40);
+        int width = sp.getInt("width", 80);
+        int height = sp.getInt("height", 80);
         int alpha = sp.getInt("alpha", 255);
 
-        overlay = new CircleView(this, radius, alpha);
+        int finalWidth = width;
+        int finalHeight = height;
+
+        overlay = new EllipseView(this, width, height, alpha);
 
         overlay.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
@@ -89,8 +93,8 @@ public class OverlayService extends Service {
                 case MotionEvent.ACTION_UP:
                     if (dragging) {
                         sp.edit()
-                                .putInt("pos_x", params.x + radius)
-                                .putInt("pos_y", params.y + radius)
+                                .putInt("pos_x", params.x + finalWidth / 2)
+                                .putInt("pos_y", params.y + finalHeight / 2)
                                 .apply();
                     }
                     return true;
@@ -103,13 +107,13 @@ public class OverlayService extends Service {
                 : WindowManager.LayoutParams.TYPE_PHONE;
 
         params = new WindowManager.LayoutParams(
-                radius * 2, radius * 2,
+                width, height,
                 type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
-        params.x = cx - radius;
-        params.y = cy - radius;
+        params.x = cx - width / 2;
+        params.y = cy - height / 2;
 
         wm.addView(overlay, params);
         startForeground(1, buildNotification());
@@ -131,19 +135,21 @@ public class OverlayService extends Service {
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_IMMUTABLE);
         return new Notification.Builder(this, CH_ID)
                 .setContentTitle("屏幕覆盖运行中")
-                .setContentText("拖拽黑圈调整位置，打开App调整大小")
+                .setContentText("拖拽调整位置，打开App调整大小")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentIntent(pi)
                 .setOngoing(true)
                 .build();
     }
 
-    static class CircleView extends View {
+    static class EllipseView extends View {
         private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        private final int size;
-        CircleView(Context ctx, int radius, int alpha) {
+        private final RectF rect = new RectF();
+        private final int w, h;
+        EllipseView(Context ctx, int width, int height, int alpha) {
             super(ctx);
-            size = radius * 2;
+            w = width;
+            h = height;
             paint.setColor(Color.BLACK);
             paint.setAlpha(alpha);
             paint.setStyle(Paint.Style.FILL);
@@ -151,12 +157,12 @@ public class OverlayService extends Service {
         }
         @Override
         protected void onMeasure(int wSpec, int hSpec) {
-            setMeasuredDimension(size, size);
+            setMeasuredDimension(w, h);
         }
         @Override
         protected void onDraw(Canvas c) {
-            float r = size / 2f;
-            c.drawCircle(r, r, r, paint);
+            rect.set(0, 0, w, h);
+            c.drawOval(rect, paint);
         }
     }
 }

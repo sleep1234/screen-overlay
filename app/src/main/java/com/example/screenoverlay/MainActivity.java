@@ -16,13 +16,14 @@ public class MainActivity extends Activity {
     private static final String PREFS = "overlay_config";
     private static final String KEY_X = "pos_x";
     private static final String KEY_Y = "pos_y";
-    private static final String KEY_R = "radius";
+    private static final String KEY_W = "width";
+    private static final String KEY_H = "height";
     private static final String KEY_ALPHA = "alpha";
 
     private SharedPreferences sp;
     private PreviewView preview;
-    private SeekBar sbX, sbY, sbR, sbAlpha;
-    private TextView tvX, tvY, tvR, tvA;
+    private SeekBar sbX, sbY, sbW, sbH, sbAlpha;
+    private TextView tvX, tvY, tvW, tvH, tvA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,13 @@ public class MainActivity extends Activity {
         preview = findViewById(R.id.preview);
         sbX = findViewById(R.id.sbX);
         sbY = findViewById(R.id.sbY);
-        sbR = findViewById(R.id.sbR);
+        sbW = findViewById(R.id.sbW);
+        sbH = findViewById(R.id.sbH);
         sbAlpha = findViewById(R.id.sbAlpha);
         tvX = findViewById(R.id.tvX);
         tvY = findViewById(R.id.tvY);
-        tvR = findViewById(R.id.tvR);
+        tvW = findViewById(R.id.tvW);
+        tvH = findViewById(R.id.tvH);
         tvA = findViewById(R.id.tvA);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnStart = findViewById(R.id.btnStart);
@@ -56,7 +59,8 @@ public class MainActivity extends Activity {
         };
         sbX.setOnSeekBarChangeListener(listener);
         sbY.setOnSeekBarChangeListener(listener);
-        sbR.setOnSeekBarChangeListener(listener);
+        sbW.setOnSeekBarChangeListener(listener);
+        sbH.setOnSeekBarChangeListener(listener);
         sbAlpha.setOnSeekBarChangeListener(listener);
 
         btnSave.setOnClickListener(v -> {
@@ -85,29 +89,33 @@ public class MainActivity extends Activity {
     private void loadAndPreview() {
         int x = sp.getInt(KEY_X, 540);
         int y = sp.getInt(KEY_Y, 200);
-        int r = sp.getInt(KEY_R, 40);
+        int w = sp.getInt(KEY_W, 80);
+        int h = sp.getInt(KEY_H, 80);
         int a = sp.getInt(KEY_ALPHA, 255);
         sbX.setProgress(x);
         sbY.setProgress(y);
-        sbR.setProgress(r);
+        sbW.setProgress(w);
+        sbH.setProgress(h);
         sbAlpha.setProgress(a);
-        updateLabels(x, y, r, a);
-        preview.setCircle(x, y, r, a);
+        updateLabels(x, y, w, h, a);
+        preview.setEllipse(x, y, w, h, a);
     }
 
     private void updatePreview() {
         int x = sbX.getProgress();
         int y = sbY.getProgress();
-        int r = sbR.getProgress();
+        int w = sbW.getProgress();
+        int h = sbH.getProgress();
         int a = sbAlpha.getProgress();
-        updateLabels(x, y, r, a);
-        preview.setCircle(x, y, r, a);
+        updateLabels(x, y, w, h, a);
+        preview.setEllipse(x, y, w, h, a);
     }
 
-    private void updateLabels(int x, int y, int r, int a) {
+    private void updateLabels(int x, int y, int w, int h, int a) {
         tvX.setText("X: " + x);
         tvY.setText("Y: " + y);
-        tvR.setText("半径: " + r);
+        tvW.setText("横向宽度: " + w);
+        tvH.setText("纵向宽度: " + h);
         tvA.setText("不透明度: " + a);
     }
 
@@ -115,9 +123,9 @@ public class MainActivity extends Activity {
         sp.edit()
                 .putInt(KEY_X, sbX.getProgress())
                 .putInt(KEY_Y, sbY.getProgress())
-                .putInt(KEY_R, sbR.getProgress())
+                .putInt(KEY_W, sbW.getProgress())
+                .putInt(KEY_H, sbH.getProgress())
                 .putInt(KEY_ALPHA, sbAlpha.getProgress())
                 .apply();
     }
-
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -11,7 +12,8 @@ public class PreviewView extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint bgPaint = new Paint();
     private final Paint crossPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private int cx, cy, cr, alpha;
+    private final RectF rect = new RectF();
+    private int cx, cy, ew, eh, alpha;
 
     public PreviewView(Context ctx, AttributeSet attrs) {
         super(ctx, attrs);
@@ -22,10 +24,11 @@ public class PreviewView extends View {
         crossPaint.setStrokeWidth(2);
     }
 
-    public void setCircle(int x, int y, int r, int a) {
+    public void setEllipse(int x, int y, int w, int h, int a) {
         cx = x;
         cy = y;
-        cr = r;
+        ew = w;
+        eh = h;
         alpha = a;
         invalidate();
     }
@@ -44,7 +47,12 @@ public class PreviewView extends View {
         border.setStrokeWidth(1);
         c.drawRect(ox, oy, ox + 1080 * s, oy + 2400 * s, border);
         paint.setAlpha(alpha);
-        c.drawCircle(ox + cx * s, oy + cy * s, cr * s, paint);
+        float left = ox + cx * s - ew * s / 2f;
+        float top = oy + cy * s - eh * s / 2f;
+        float right = ox + cx * s + ew * s / 2f;
+        float bottom = oy + cy * s + eh * s / 2f;
+        rect.set(left, top, right, bottom);
+        c.drawOval(rect, paint);
         float px = ox + cx * s;
         float py = oy + cy * s;
         c.drawLine(px - 10, py, px + 10, py, crossPaint);
